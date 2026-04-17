@@ -1,8 +1,12 @@
 <script setup>
-  import {ref} from 'vue';
+  import {ref, computed} from 'vue';
 
   const newTask = ref('');
   const tasks = ref([]);
+
+  const remainingCount = computed(() =>{
+    return tasks.value.filter(task => !task.done).length
+  });
 
   function addTask(){
     if(newTask.value.trim() === '') return;
@@ -46,6 +50,10 @@
         <button @click="deleteTask(task.id)">✕</button>
     </li>
   </ul>
+
+  <p v-if="tasks.length > 0">
+    {{remainingCount}} {{remainingCount === 1 ? 'task' : 'tasks'}} remaining
+  </p>
 </template>
 
 <style scoped>
